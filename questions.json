@@ -1,0 +1,22 @@
+{
+  "behavioral": [
+    { "q": "Tell me about a time you had to deliver a project under a deadline that felt impossible.", "hint": "Look for scoping decisions, communication with stakeholders, and what they cut vs. kept." },
+    { "q": "Describe a conflict you had with a coworker or manager. How did it get resolved?", "hint": "Look for ownership of their side, direct communication, and a concrete resolution — not blame." },
+    { "q": "Tell me about a time you failed at something that mattered.", "hint": "Look for a real failure with real stakes, what they learned, and changed behavior afterward." },
+    { "q": "Give me an example of a time you had to persuade people to go along with an approach they initially disagreed with.", "hint": "Look for listening first, evidence-based persuasion, and outcome." },
+    { "q": "Tell me about a time you received difficult feedback. What did you do with it?", "hint": "Look for non-defensiveness and a specific change they made." },
+    { "q": "Describe a situation where you had to make a decision without enough information.", "hint": "Look for how they framed risk, what assumptions they named, and how they validated later." },
+    { "q": "Tell me about the accomplishment you're most proud of professionally.", "hint": "Look for their specific contribution, measurable impact, and why it mattered." },
+    { "q": "Describe a time you took ownership of a problem that wasn't technically your job.", "hint": "Look for initiative, judgment about when to step in, and follow-through." }
+  ],
+  "technical": [
+    { "q": "Walk me through how you would design a URL shortener like bit.ly.", "hint": "Look for requirements clarification, ID generation strategy, storage, redirects, and scale considerations." },
+    { "q": "A production API endpoint suddenly got 10x slower this morning. How do you investigate?", "hint": "Look for systematic debugging: recent deploys, metrics, database, dependencies — not random guessing." },
+    { "q": "Explain the difference between SQL and NoSQL databases, and when you'd choose each.", "hint": "Look for tradeoffs (schema, consistency, scale, query patterns) rather than one-is-better." },
+    { "q": "How would you handle a memory leak reported in a service you own?", "hint": "Look for reproduction, profiling/heap analysis, common causes, and prevention." },
+    { "q": "Describe how you would add caching to a read-heavy web application.", "hint": "Look for cache placement options, invalidation strategy, and failure modes like stampedes." },
+    { "q": "What happens when you type a URL into a browser and press enter?", "hint": "Look for DNS, TCP/TLS, HTTP request/response, rendering — depth over buzzwords." },
+    { "q": "How do you decide between writing a quick fix and doing a proper refactor?", "hint": "Look for context-dependence: urgency, blast radius, test coverage, and paying debt down deliberately." },
+    { "q": "Explain idempotency and why it matters when designing APIs.", "hint": "Look for a correct definition, retry safety, and a concrete example like payment endpoints." }
+  ]
+}
