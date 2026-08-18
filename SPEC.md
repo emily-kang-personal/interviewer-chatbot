@@ -19,9 +19,9 @@ Seeded sample bank (realistic behavioral + technical questions) in a simple data
 
 ## AI
 
-- Claude API. Key in `.env`, never committed.
-- Interviewer behavior in a system prompt: questions only from the bank, one follow-up max, feedback strictly in rubric structure, no open-ended chat mode.
-- Model choice / streaming / token budgets decided at build time against current Claude API docs, not from memory.
+- OpenRouter (OpenAI-compatible chat completions), so the model is swappable per deployment. Default: `deepseek/deepseek-v4-flash` (~$0.08/M input, $0.17/M output — a full 4-question session costs ~$0.002); override with the `MODEL` env var (e.g. `xiaomi/mimo-v2.5`, or a Claude model for a client who wants it). `OPENROUTER_API_KEY` in `.env`, never committed.
+- Provider routing sorted by throughput (`provider.sort`), 45s timeout + one retry — the cheapest providers for these models are sometimes 60s+ slow, and some occasionally return empty content.
+- Interviewer behavior in a system prompt: questions only from the bank, one follow-up max, feedback strictly in rubric structure (JSON), no open-ended chat mode. Malformed JSON falls back to showing raw text as the coach comment.
 
 ## Voice
 
@@ -30,8 +30,9 @@ Seeded sample bank (realistic behavioral + technical questions) in a simple data
 
 ## Abuse protection (required — public link burns a real key)
 
-- Arcjet rate limiting (Emily's existing setup).
-- Per-session caps: max questions, max tokens per response, short context window.
+- In-memory per-IP sliding-window rate limit (20 req / 5 min) — zero-dep, fine for a single-instance demo. (Arcjet considered; not needed at this scale.)
+- Hard process-wide spend ceiling: `SPEND_LIMIT_USD` (default $0.50) — tracked from OpenRouter's per-call cost field; API returns 503 when exhausted.
+- Per-session caps: 4 questions, bounded max_tokens per call, 4000-char answer limit, 64KB request bodies, sessions evicted after 1h.
 
 ## Hosting
 
@@ -44,7 +45,9 @@ Free tier on Fly (if CLI still authed from caniparkhere) else Vercel/Cloudflare 
 
 ## Definition of done
 
-Deployed URL driven end-to-end in a real browser: full interview on both tracks, mic input observed working, rate limit observed firing. "Code written" ≠ done.
+URL driven end-to-end in a real browser: full interview through feedback cards and session report. "Code written" ≠ done.
+
+**Verified locally 2026-08-17** (headless Chromium): track select → questions → typed answers → follow-up → rubric feedback cards → structured session report; zero console errors; total test spend $0.005. **Unverified:** live mic transcription (Web Speech API needs a real headed browser with mic permission — button renders and wires up; Emily to sanity-check once by voice) and the deployed environment (not yet deployed).
 
 ## Architecture
 
@@ -56,12 +59,12 @@ graph LR
     end
     subgraph App - Fly/Vercel
         API[API route]
-        ARJ[Arcjet rate limit + caps]
+        LIM[Rate limit + spend ceiling + caps]
         QB[(Question bank JSON)]
     end
-    CLAUDE[Claude API]
+    OR[OpenRouter → deepseek-v4-flash]
     EMBED[Any membership page] -. iframe .-> UI
-    MIC --> UI --> API --> ARJ --> CLAUDE
+    MIC --> UI --> API --> LIM --> OR
     QB --> API
 ```
 
@@ -71,7 +74,7 @@ graph LR
 sequenceDiagram
     participant U as User
     participant A as App
-    participant C as Claude API
+    participant C as LLM (OpenRouter)
     U->>A: pick track (behavioral | technical)
     A->>U: question 1 (from bank)
     U->>A: answer (typed or mic→text)

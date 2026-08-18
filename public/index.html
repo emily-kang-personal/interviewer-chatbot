@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>The Mock Interview</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300..900;1,9..144,300..900&family=Archivo:wght@400;500;600&family=Spline+Sans+Mono:wght@400;500&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+<div class="page">
+
+  <header class="masthead">
+    <div class="brand">
+      <span class="brand-mark">Ⅰ</span>
+      <span class="brand-name">The Mock Interview</span>
+    </div>
+    <div class="session-chip mono" id="progressChip" hidden>Q <span id="qNow">1</span> / <span id="qTotal">4</span></div>
+  </header>
+
+  <!-- ============ TRACK SELECT ============ -->
+  <section id="viewSelect" class="view">
+    <p class="kicker mono">AI-coached practice session</p>
+    <h1 class="headline">Rehearse the interview<br /><em>before it counts.</em></h1>
+    <p class="lede">Four questions. Answer by typing or speaking. A coach scores every answer against a real rubric and hands you a report at the end.</p>
+
+    <div class="tracks">
+      <button class="track-card" data-track="behavioral">
+        <span class="track-num mono">01</span>
+        <span class="track-name">Behavioral</span>
+        <span class="track-desc">“Tell me about a time…” — scored against the STAR rubric: Situation, Task, Action, Result.</span>
+        <span class="track-cta mono">Begin →</span>
+      </button>
+      <button class="track-card" data-track="technical">
+        <span class="track-num mono">02</span>
+        <span class="track-name">Technical</span>
+        <span class="track-desc">Systems, debugging, tradeoffs — scored on correctness, approach, communication, depth.</span>
+        <span class="track-cta mono">Begin →</span>
+      </button>
+    </div>
+  </section>
+
+  <!-- ============ INTERVIEW ============ -->
+  <section id="viewInterview" class="view" hidden>
+    <div id="thread" class="thread"></div>
+
+    <div class="answer-desk" id="answerDesk">
+      <div class="desk-head">
+        <span class="mono desk-label">Your answer</span>
+        <button id="micBtn" class="mic mono" type="button" hidden>● REC</button>
+      </div>
+      <textarea id="answerInput" rows="5" placeholder="Speak or type your answer — specifics beat generalities…"></textarea>
+      <div class="desk-foot">
+        <span class="mono hint" id="micHint"></span>
+        <button id="sendBtn" class="send" type="button">Submit answer</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SUMMARY ============ -->
+  <section id="viewSummary" class="view" hidden>
+    <p class="kicker mono">Session report</p>
+    <div id="report"></div>
+    <button id="againBtn" class="send again" type="button">Run another session</button>
+  </section>
+
+  <footer class="colophon mono">
+    <span>Demo build — question bank is swappable, voice input via your browser.</span>
+  </footer>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
